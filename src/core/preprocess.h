@@ -6,6 +6,6 @@
 #include <time.h>
 
 
-void preprocess(struct WordInfo* word_info, void(func)(const char* code_path));
+int preprocess(struct WordInfo* word_info, void(func)(const char* code_path));
 
 #endif // __PREPROCESS_H__

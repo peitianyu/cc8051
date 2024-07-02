@@ -9,7 +9,7 @@
 // int a \
 //     = 1;
 
-    // #include "1_preprocess.h" // 这是一行注释
+//     #include "1_preprocess.h" // 这是一行注释
 
 // int sub(int a, int b) { return a - b; }
 // int main()
@@ -17,12 +17,12 @@
 //     int a = 1;
 //     int b = 2;
 //     int c = sub(a, b);
-    // printf("%s %d %s %s %s", __FILE__, __LINE__, __DATE__, __TIME__, __FUNCTION__);
+//     printf("%s %d %s %s %s", __FILE__, __LINE__, __DATE__, __TIME__, __FUNCTION__);
 //     return 0;
 // }
 
-#define ADD(x, y) (x+y)
-int add = ADD(1,2);
+// #define ADD(x, y) (x+y)
+// int add = ADD(1,2);
 
 #define CONCAT(x,y) x##y
 int xy = CONCAT(1,2);
@@ -35,13 +35,13 @@ char* str = STRINGIFY(1+2);
 #define PRINT(...) printf(__VA_ARGS__)
 PRINT(1, 2, 3);
 
-#define DEBUG 1
+#define DEBUG 0
 
 // 仅支持单参数判断
 #if DEBUG
 #error This code requires Microsoft Visual C++ compiler.
 #else
-#pragma message("RELEASE MODE")
+#warning RELEASE MODE
 #endif
 
 #ifndef CCC
@@ -49,7 +49,7 @@ PRINT(1, 2, 3);
 #endif
 
 #ifdef CCC
-#pragma message("CCC is defined")
+#warning CCC is defined
 #endif
 #undef CCC
 
