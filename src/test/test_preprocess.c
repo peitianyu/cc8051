@@ -1,12 +1,11 @@
 #include "common/c_test.h"
 #include "common/logger.h"
-#include "core/word_info.h"
 #include "core/preprocess.h"
 
 static void process(const char* code_path);
 
-// JUST_RUN_TEST(get_word, test)
-TEST(get_word, test)
+JUST_RUN_TEST(preprocess, test)
+TEST(preprocess, test)
 {
     const char* code_path = "../data/1_preprocess.c";
     process(code_path);
@@ -23,6 +22,7 @@ static void process(const char* code_path)
 
         preprocess(&word_info, process);
         if(word_info.shortcut == '\n' && strlen(word_info.word) == 0) continue;
+        if(word_info.last_shortcut == '\n' && strlen(word_info.word) == 0) continue;
         print_word_info(&word_info);
     } 
 }

@@ -37,20 +37,20 @@ PRINT(1, 2, 3);
 
 #define DEBUG 1
 
-// // 仅支持单参数判断
-// #if DEBUG
-// #pragma message("DEBUG MODE")
-// #else
-// #pragma message("RELEASE MODE")
-// #endif
+// 仅支持单参数判断
+#if DEBUG
+#error This code requires Microsoft Visual C++ compiler.
+#else
+#pragma message("RELEASE MODE")
+#endif
 
-// #ifndef CCC
+#ifndef CCC
 #define CCC 
-// #endif
+#endif
 
-// #ifdef CCC
-// #pragma message("CCC is defined")
-// #endif
-// #undef CCC
+#ifdef CCC
+#pragma message("CCC is defined")
+#endif
+#undef CCC
 
 

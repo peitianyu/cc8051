@@ -20,7 +20,9 @@ static void predefined_macros(struct WordInfo* word_info);
 static void pre_include_parse(struct WordInfo* word_info, void(func)(const char* code_path));
 static void pre_define_parse(struct WordInfo* word_info);
 static void define_parse(struct WordInfo* word_info);
-
+static void pre_undef_parse(struct WordInfo* word_info);
+static void pre_error_parse(struct WordInfo* word_info);
+static void pre_if_parse(struct WordInfo* word_info);
 void preprocess(struct WordInfo* word_info, void(func)(const char* code_path))
 {
     
@@ -32,6 +34,12 @@ void preprocess(struct WordInfo* word_info, void(func)(const char* code_path))
             pre_include_parse(word_info, func);
         } else if(strcmp(word_info->word, "define") == 0) {
             pre_define_parse(word_info);
+        } else if(strcmp(word_info->word, "undef") == 0) {
+            pre_undef_parse(word_info);
+        } else if(strcmp(word_info->word, "error") == 0) {
+            pre_error_parse(word_info);
+        } else if(strcmp(word_info->word, "if") == 0) {
+            pre_if_parse(word_info);
         }
     }
     define_parse(word_info);
@@ -126,6 +134,7 @@ static void define_parse(struct WordInfo* word_info) {
     char* defined_body;
     
     if(define_info == NULL) return;
+    if(define_info->define_body == 0) return;
 
     // printf("define_info: %s\n", define_info->define_body);
 
@@ -149,9 +158,36 @@ static void define_parse(struct WordInfo* word_info) {
     char* code_str = (char*)malloc(strlen(word_info->code_str)+strlen(defined_body)); 
     strncpy(code_str, word_info->code_str, word_info->start_pos);
     strcat(code_str, defined_body);
+    if(word_info->shortcut == '\n') strcat(code_str, " ");
     strcat(code_str, word_info->code_str+word_info->start_pos);
     word_info->code_str = code_str;
     next_word_info(word_info);
+
+    // printf("pre_define_parse: %s\n", word_info->code_str);
+}
+
+static void pre_undef_parse(struct WordInfo* word_info)
+{
+    next_word_info(word_info);
+    if (hash_map_get(&g_define_map, word_info->word) == NULL) return;
+    hash_map_erase(&g_define_map, word_info->word);
+    next_word_info(word_info);
+}
+
+static void pre_error_parse(struct WordInfo* word_info)
+{
+    next_special_word_info(word_info, "\n");
+    printf("error: %s\n", word_info->word);
+    next_word_info(word_info);
+}
+
+static void pre_if_parse(struct WordInfo* word_info)
+{
+    next_word_info(word_info);
+    if (hash_map_get(&g_define_map, word_info->word) == NULL) PREPROCESS_ERROR_EXIT("#if (x) : define not found");
+
+    
+    printf("if: %s\n", word_info->word);
 }
 
 static int is_blank(char ch) {
