@@ -24,7 +24,8 @@ static void process(const char* code_path)
         if(preprocess(&word_info, process)) continue;
 
         if(word_info.shortcut == '\n' && strlen(word_info.word) == 0) continue;
-        if(word_info.last_shortcut == '\n' && strlen(word_info.word) == 0) continue;
+        // if(word_info.last_shortcut == '\n' && strlen(word_info.word) == 0) continue;
+        
         print_word_info(&word_info);
     } 
 }
