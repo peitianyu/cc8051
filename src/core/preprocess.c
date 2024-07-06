@@ -17,7 +17,6 @@ static int is_blank(char ch);
 static char* trim_all_blank(const char* str);
 static char* skip_last_str(const char* code_str, const char* str, int str_len);
 static char* get_arg_str(struct WordInfo* word_info, struct DefineInfo* define_info, int id);
-static void preprocess_init();
 static void predefined_macros(struct WordInfo* word_info);
 static void pre_include_parse(struct WordInfo* word_info, void(func)(const char* code_path));
 static int pre_define_parse(struct WordInfo* word_info);
@@ -76,14 +75,6 @@ static void predefined_macros(struct WordInfo* word_info)
     else if(strcmp(word_info->word, "__TIME__") == 0)         word_info->word = get_date_time(0);
 }
 
-static void preprocess_init()
-{
-    static int init_flag = 0;
-    if(init_flag == 0) {
-        init_flag = 1;
-        g_define_map = create_hash_map();
-    }
-} 
 static void pre_include_parse(struct WordInfo* word_info, void(func)(const char* code_path))
 {
     next_special_word_info(word_info, "<\"");

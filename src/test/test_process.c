@@ -4,10 +4,11 @@
 
 static void process(const char* code_path);
 
-// JUST_RUN_TEST(preprocess, test)
-TEST(preprocess, test)
+
+// JUST_RUN_TEST(process, test)
+TEST(process, test)
 {
-    const char* code_path = "../data/1_preprocess.c";
+    const char* code_path = "../data/2_data_type.c";
     process(code_path);
 }
 

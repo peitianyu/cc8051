@@ -1,5 +1,6 @@
 DEF(OP_ARRAY_SUBSCRIPT, "[arr_id]")
 DEF(OP_EXPR, "(expr)")
+DEF(OP_FUNC, "func(args)")
 DEF(OP_MEMBER_VAR, "struct_t.var")
 DEF(OP_POINTER_VAR, "ptr->var")
 DEF(OP_NE_SIGN, "-x")

@@ -12,7 +12,7 @@ xdata char _xdata;
 
 int* _ptr = NULL;
 char _arr[] = {1, 2, 3, 4};
-int _arr2[4] = {1, 2, 3, 4};
+int _arr2[4] = {1, 2, 3, -4};
 
 // 默认为uint8_t
 enum Enum { ONE=1, TOW};
@@ -29,3 +29,14 @@ union Union {
     } _bits;
 };
 union Union _union = {0xff};
+
+int add(int a, int b) {
+    return a + b;
+}
+
+void main()
+{
+    int a = 1;
+    int b = 2;
+    int c = add(a, b);
+}

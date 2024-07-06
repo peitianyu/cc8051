@@ -1,25 +1,59 @@
-#include "common/c_test.h"
-#include "common/logger.h"
-#include <ctype.h>
-#include <string.h>
-#include <stdio.h>
-#include <stdlib.h>
+#include "expr.h"
+
+enum Operator {
+#define DEF(id, str) id, 
+#include "cc_operator.h"
+#undef DEF
+};
+
+static const char* g_op_keywords[] = {
+#define DEF(id, str) str,
+#include "cc_operator.h"
+#undef DEF
+};
+
+enum cc_token {
+#define DEF(id, str) id,
+#include "cc_token.h"
+#undef DEF
+};
+
+static const char* g_token_keywords[] = {
+#define DEF(id, str) str, 
+#include "cc_token.h"
+#undef DEF
+};
 
 static int is_digit_str(char* str, int *num);
-
-// JUST_RUN_TEST(integer_constants, test)
-TEST(integer_constants, test)
+static int is_token(char* str);
+void update_token(struct WordInfo *word_info)
 {
-    // 暂不支持科学计数法
-    char* strs[9] = {"0x89", "0b10100011", "123", "1", "true", "false", "NULL", "-1", "!1"};
+    int token_id = is_token(word_info->word);
+    if(token_id != -1) {
+        printf("token: %s\n", g_token_keywords[token_id]);
+        return ;
+    }
+    
+    int num = 0;
+    if(is_digit_str(word_info->word, &num)) {
+        printf("num: %d\n", num);
+        return;
+    }
 
-    for(int i = 0; i < sizeof(strs) / sizeof(char*); i++) {
-        int num = 0;
-        int ret = is_digit_str(strs[i], &num);
-        LOG_DEBUG("str: %s, num: %d, ret: %d", strs[i], num, ret);
+    if(strlen(word_info->word) == 0) {
+        // TODO: 判断运算符
+    } else if(strlen(word_info->word)>0) {
+        printf("name: %s\n", word_info->word);
     }
 }
 
+
+static int is_token(char* str)
+{
+    for(int i = 0; i < sizeof(g_token_keywords) / sizeof(g_token_keywords[0]); i++) 
+        if(strcmp(str, g_token_keywords[i]) == 0) return i;
+    return -1;
+}
 
 static int is_digit_str(char* str, int *num)
 {   

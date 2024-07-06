@@ -1,13 +1,15 @@
 #include "common/c_test.h"
 #include "common/logger.h"
 #include "core/preprocess.h"
+#include "core/expr.h"
 
 static void process(const char* code_path);
 
-// JUST_RUN_TEST(preprocess, test)
-TEST(preprocess, test)
+JUST_RUN_TEST(data_type, test)
+TEST(data_type, test)
 {
-    const char* code_path = "../data/1_preprocess.c";
+    const char* code_path = "../data/2_data_type.c";
+    
     process(code_path);
 }
 
@@ -24,8 +26,8 @@ static void process(const char* code_path)
         if(preprocess(&word_info, process)) continue;
 
         if(word_info.shortcut == '\n' && strlen(word_info.word) == 0) continue;
-        // if(word_info.last_shortcut == '\n' && strlen(word_info.word) == 0) continue;
-        
-        print_word_info(&word_info);
+
+        update_token(&word_info);
     } 
 }
+

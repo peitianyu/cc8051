@@ -11,6 +11,7 @@ void Tester_Is(char* name, int line, int x, char* msg);
 #define ASSERT_LE(a, b) Tester_Is(__FILE__, __LINE__, (a) <= (b), #a " <= " #b)
 #define ASSERT_GT(a, b) Tester_Is(__FILE__, __LINE__, (a) > (b), #a " > " #b)
 #define ASSERT_GE(a, b) Tester_Is(__FILE__, __LINE__, (a) >= (b), #a " >= " #b)
+#define ASSERT_NEAR(a, b, e) Tester_Is(__FILE__, __LINE__, (a) >= (b) - (e) && (a) <= (b) + (e), #a " ~= " #b)
 
 void Register(char* name, void (*test)());
 void RegisterJustRun(char* name);
